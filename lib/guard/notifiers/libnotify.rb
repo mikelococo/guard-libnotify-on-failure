@@ -56,6 +56,7 @@ module Guard
         super
         self.class.require_gem_safely
 
+        status = opts[:type]
         opts = DEFAULTS.merge(
           summary:   opts.delete(:title),
           icon_path: opts.delete(:image),
@@ -63,7 +64,8 @@ module Guard
           urgency:   _libnotify_urgency(opts.delete(:type))
         ).merge(opts)
 
-        ::Libnotify.show(opts) if opts.delete(:type) == 'failure'
+        # Libnotify should alert only on failure.
+        ::Libnotify.show(opts) if status == :failed
       end
 
       private
