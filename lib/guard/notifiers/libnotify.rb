@@ -63,7 +63,7 @@ module Guard
           urgency:   _libnotify_urgency(opts.delete(:type))
         ).merge(opts)
 
-        ::Libnotify.show(opts)
+        ::Libnotify.show(opts) if opts.delete(:type) == 'failure'
       end
 
       private
